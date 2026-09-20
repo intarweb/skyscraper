@@ -524,12 +524,7 @@ QList<QString> ScreenScraper::getSearchNames(const QFileInfo &info,
     QList<QString> searchNames;
     debug.append("Base name: '" + baseName + "'\n");
 
-    if (QString aliasTitle = lookupAliasMap(baseName, debug);
-        aliasTitle != baseName) {
-        searchNames.append("romnom=" +
-                           QUrl::toPercentEncoding(aliasTitle, "()"));
-        return searchNames;
-    }
+    QString searchName = lookupSearchName(info, baseName, debug);
 
     QList<QString> hashList;
     QCryptographicHash md5(QCryptographicHash::Md5);
@@ -632,7 +627,7 @@ QList<QString> ScreenScraper::getSearchNames(const QFileInfo &info,
 
     // For some reason the APIv2 example from their website does not url encode
     // '(' and ')' so I've excluded them
-    hashList.append(QUrl::toPercentEncoding(info.fileName(), "()"));
+    hashList.append(QUrl::toPercentEncoding(searchName, "()"));
     hashList.append(crcResult.toUpper());
     hashList.append(md5Result.toUpper());
     hashList.append(sha1Result.toUpper());
@@ -660,8 +655,7 @@ QList<QString> ScreenScraper::getSearchNames(const QFileInfo &info,
         }
     } else {
         // file not accessible or size is 0
-        // TODO: Legacy code, most likely clear searchNames here to indicate
-        // faulty input
+        // query only by game title
         searchNames.append("romnom=" + hashList.at(0));
     }
 
@@ -670,9 +664,9 @@ QList<QString> ScreenScraper::getSearchNames(const QFileInfo &info,
 
 QString ScreenScraper::applyQuerySearchName(QString query) {
     if (query.startsWith("romnom=") || query.contains("=")) {
-        return query;
+        return QUrl::toPercentEncoding(query);
     } else {
-        return "romnom=" + query;
+        return "romnom=" + QUrl::toPercentEncoding(query);
     }
 }
 
