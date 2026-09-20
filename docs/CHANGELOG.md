@@ -3,7 +3,7 @@
 This page summarizes the changes of each Skyscraper release, a [changlog for
 humans](https://keepachangelog.com).
 
-### Version 3.21.0 (2026-TBA)
+### Version 3.21.0 (2026-09-20)
 
 - Added: AppImage support for PC (x64) and ARM (aarch64) architectures (with or
   without XDG support), find the AppImages in the release section of this repo.
@@ -21,7 +21,10 @@ humans](https://keepachangelog.com).
 - Added: Option [`--ini`](CLIHELP.md#-ini) creates a default `config.ini` if
   none is found at the default filesystem location. Mainly useful when you use
   Skyscraper as single binary install.
-- Updated: Screenscraper.fr uses plain game title as `romnom=...`, to increase
+- Added: RetroPie scriptmodule keeps platform selection between scraping and
+  generating run; added the option to bypass all flags set for Skyscraper within
+  the scriptmodule; added editing of additional configuration files.
+- Changed: Screenscraper.fr uses plain game title as `romnom=...`, to increase
   match performance when other characteristics like md5, filesize, aso. do not
   provide a match.
 - Updated: Documentation about [Skyscraper's INI format
